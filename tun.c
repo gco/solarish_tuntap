@@ -248,17 +248,17 @@ static int tundetach(dev_info_t *dev, ddi_detach_cmd_t cmd)
  */
 static int tuninfo(dev_info_t *devi, ddi_info_cmd_t infocmd, void *arg, void **result)
 {
-  dev_t dev = (dev_t)arg;
-
   DBG(CE_CONT,"tun: tuninfo\n");
 
-  switch( infocmd ){
+  switch (infocmd) {
      case DDI_INFO_DEVT2DEVINFO:
+	if (tun_dev == NULL)
+	    return (DDI_FAILURE);
 	*result = tun_dev;
 	return DDI_SUCCESS;
 
      case DDI_INFO_DEVT2INSTANCE:
-	*result = (void *)(intptr_t) getminor(dev);
+	*result = 0;
 	return DDI_SUCCESS;
   }
   return DDI_FAILURE;
